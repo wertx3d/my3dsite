@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
-import os, uuid, sqlite3
+import os
+import uuid
+import sqlite3
 
 app = Flask(__name__)
 UPLOAD_FOLDER = "static/models"
@@ -7,11 +9,13 @@ os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
 def init_db():
     conn = sqlite3.connect("models.db")
-    conn.execute("""CREATE TABLE IF NOT EXISTS models (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        name TEXT,
-        filename TEXT
-    )""")
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS models (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT,
+            filename TEXT
+        )
+    """)
     conn.commit()
     conn.close()
 
@@ -37,6 +41,4 @@ def upload():
         conn.close()
     return redirect(url_for("index"))
 
-if __name__ == "__main__":
-    init_db()
-    app.run(host="0.0.0.0", port=5000)
+init_db()
