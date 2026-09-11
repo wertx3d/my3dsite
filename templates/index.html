@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Мои 3D модели</title>
+    <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+    <style>
+        body { background: #111; color: white; font-family: Arial; padding: 20px; }
+        h1 { text-align: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; }
+        .card { background: #222; padding: 15px; border-radius: 10px; }
+        model-viewer { width: 100%; height: 250px; background: #333; border-radius: 8px; }
+        form { text-align: center; margin: 20px 0; }
+        input, button { padding: 8px; margin: 4px; border-radius: 6px; border: none; }
+        button { background: #4f46e5; color: white; cursor: pointer; }
+    </style>
+</head>
+<body>
+    <h1>Мои 3D модели</h1>
+
+    <form action="/upload" method="post" enctype="multipart/form-data">
+        <input type="text" name="name" placeholder="Название" required>
+        <input type="file" name="model" accept=".glb,.gltf" required>
+        <button type="submit">Загрузить</button>
+    </form>
+
+    <div class="grid">
+        {% for m in models %}
+        <div class="card">
+            <model-viewer src="/static/models/{{ m['filename'] }}" auto-rotate camera-controls></model-viewer>
+            <h3>{{ m['name'] }}</h3>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
